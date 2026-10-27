@@ -9,11 +9,14 @@ Original file is located at
 Q1 Load a dataset into a Jupyter Notebook using the Pandas library and display its basic information.
 """
 
+from pathlib import Path
+from IPython.display import display
 import pandas as pd
 
 sheet_url = "https://docs.google.com/spreadsheets/d/1vVSEYFOsvpiIQm-uA-Y2gwZfRX-lfRSMYS7ued4cGQA/export?format=csv&gid=2124450709"
 
-df = pd.read_csv(sheet_url)
+dataset_path = Path(__file__).with_name("cleaned_preprocessed_dataset.csv")
+df = pd.read_csv(dataset_path if dataset_path.exists() else sheet_url)
 
 print("--- First 5 Rows ---")
 display(df.head())
@@ -52,7 +55,7 @@ print("\nLast records: \n")
 display(df.tail())
 
 print("\nRandom records: \n")
-display(df.sample)
+display(df.sample(n=min(5, len(df)), random_state=42))
 
 """Q4 Detect and handle missing values using appropriate techniques such as deletion, mean, median, mode, or interpolation.
 
